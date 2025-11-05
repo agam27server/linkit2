@@ -1,0 +1,82 @@
+<header class="fixed py-3 top-0 left-0 right-0 z-50 w-full <%= isDarkMode ? 'bg-black text-white' : 'bg-white text-black' %> backdrop-blur-md shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <!-- Logo -->
+        <%- include('linkitLogo') %>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex gap-6 md:gap-10">
+            <a href="#home" class="hover:text-custom-green transition-colors">Home</a>
+            <a href="#feature" class="hover:text-custom-green transition-colors">Features</a>
+            <a href="#ranking" class="hover:text-custom-green transition-colors">Ranking</a>
+            <a href="#github" class="hover:text-custom-green transition-colors">Github</a>
+        </nav>
+        
+        <!-- Right Buttons -->
+        <div class="hidden lg:flex items-center gap-4">
+            <%- include('darkButton') %>
+            
+            <% if (typeof user !== 'undefined' && user) { %>
+                <!-- Authenticated User Menu -->
+                <a href="/dashboard" class="px-4 py-2 border-2 border-custom-green text-buttons-primary rounded-md hover:text-custom-green transition-all">
+                    Dashboard
+                </a>
+                <a href="/profile/<%= user.username %>" class="px-4 py-2 border-2 border-custom-green text-buttons-primary rounded-md hover:text-custom-green transition-all">
+                    Profile
+                </a>
+                <button onclick="logout()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                    Logout
+                </button>
+            <% } else { %>
+                <!-- Guest Menu -->
+                <a href="/login" class="border-2 border-custom-green text-buttons-primary py-2 px-4 rounded-md hover:text-custom-green transition-all">
+                    Login
+                </a>
+                <a href="/register" class="px-4 py-2 bg-custom-green text-white rounded hover:bg-green-600">
+                    Sign Up
+                </a>
+            <% } %>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button onclick="toggleMobileMenu()" class="lg:hidden focus:outline-none flex items-center">
+            <span class="sr-only">Open Menu</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </div>
+    
+    <!-- Mobile Navigation -->
+    <nav id="mobile-menu" class="hidden absolute top-16 left-0 w-full bg-opacity-95 <%= isDarkMode ? 'bg-black text-white' : 'bg-white text-black' %> px-4 pb-4 flex flex-col gap-4 text-center shadow-md">
+        <ul class="space-y-4">
+            <li><a href="#home" class="block py-2 text-lg hover:text-custom-green transition-colors">Home</a></li>
+            <li><a href="#feature" class="block py-2 text-lg hover:text-custom-green transition-colors">Features</a></li>
+            <li><a href="#ranking" class="block py-2 text-lg hover:text-custom-green transition-colors">Ranking</a></li>
+            <li><a href="#github" class="block py-2 text-lg hover:text-custom-green transition-colors">Github</a></li>
+        </ul>
+        <div class="flex flex-col space-y-2 mt-4 items-center">
+            <%- include('darkButton') %>
+            
+            <% if (typeof user !== 'undefined' && user) { %>
+                <a href="/dashboard" class="border-2 border-custom-green text-buttons-primary py-2 px-4 rounded-md hover:text-custom-green transition-all w-full">
+                    Dashboard
+                </a>
+                <a href="/profile/<%= user.username %>" class="border-2 border-custom-green text-buttons-primary py-2 px-4 rounded-md hover:text-custom-green transition-all w-full">
+                    Profile
+                </a>
+                <button onclick="logout()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 w-full">
+                    Logout
+                </button>
+            <% } else { %>
+                <a href="/login" class="border-2 border-custom-green text-buttons-primary py-2 px-4 rounded-md hover:text-custom-green transition-all w-full">
+                    Login
+                </a>
+                <a href="/register" class="px-4 py-2 bg-custom-green text-white rounded hover:bg-green-600 w-full">
+                    Sign Up
+                </a>
+            <% } %>
+        </div>
+    </nav>
+</header>
+
+

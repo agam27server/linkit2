@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" class="<%= isDarkMode ? 'dark' : '' %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkit</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/newLogo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/newLogo.png">
+    <link rel="shortcut icon" href="/images/newLogo.png">
+    <link rel="apple-touch-icon" href="/images/newLogo.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'custom-green': '#4caf50',
+                        'custom-grey-color': 'rgba(39, 39, 39, 0.8)',
+                        'buttons-primary': '#4caf50'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body id="rankings-body" class="bg-white text-black">
+    <!-- Navigation -->
+    <%- include('partials/navbar') %>
+    
+    <!-- Main Content -->
+    <main class="min-h-screen py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold mb-4">Top Profiles</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300">
+                    See who has the most profile views on LinkIt
+                </p>
+            </div>
+            
+            <!-- Rankings Table -->
+            <div id="rankings-card" class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead id="rankings-header" class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Views</th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankings-table" class="bg-white divide-y divide-gray-200">
+                            <% if (profiles && profiles.length > 0) { %>
+                                <% profiles.forEach(function(profile, index) { %>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <% if (index === 0) { %>
+                                                    <span class="text-2xl">🥇</span>
+                                                <% } else if (index === 1) { %>
+                                                    <span class="text-2xl">🥈</span>
+                                                <% } else if (index === 2) { %>
+                                                    <span class="text-2xl">🥉</span>
+                                                <% } else { %>
+                                                    <span class="text-lg font-semibold text-gray-500">#<%= index + 1 %></span>
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-12 w-12">
+                                                    <img 
+                                                        class="h-12 w-12 rounded-full object-cover" 
+                                                        src="<%= profile.profileImage || '/images/default.svg' %>" 
+                                                        alt="<%= profile.username %>"
+                                                    />
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                                        @<%= profile.username %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900 dark:text-white">
+                                                <span class="text-custom-green font-bold text-lg">
+                                                    <%= profile.profileClicks || 0 %>
+                                                </span>
+                                                <span class="text-gray-500 text-sm ml-1">views</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a 
+                                                href="/profile/<%= profile.username %>" 
+                                                class="text-custom-green hover:text-green-600 transition-colors"
+                                            >
+                                                View Profile
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="4" class="px-6 py-12 text-center">
+                                        <div class="text-gray-500 dark:text-gray-300">
+                                            <div class="w-24 h-24 mx-auto mb-4 text-gray-400">
+                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                                </svg>
+                                            </div>
+                                            <h3 class="text-xl font-semibold mb-2">No Rankings Yet</h3>
+                                            <p>Be the first to create a profile and start climbing the rankings!</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Call to Action -->
+            <div class="text-center mt-12">
+                <h2 class="text-2xl font-bold mb-4">Want to join the rankings?</h2>
+                <p class="text-gray-600 dark:text-gray-300 mb-6">
+                    Create your profile and start sharing your links to climb the leaderboard!
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/register" class="px-6 py-3 bg-custom-green text-white rounded-lg hover:bg-green-600 transition-colors">
+                        Create Account
+                    </a>
+                    <a href="/" class="px-6 py-3 border-2 border-custom-green text-custom-green rounded-lg hover:bg-custom-green hover:text-white transition-colors">
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+    
+    <script>
+        // Load rankings data if not already loaded
+        document.addEventListener('DOMContentLoaded', async function() {
+            <% if (!profiles || profiles.length === 0) { %>
+                try {
+                    const response = await fetch('/api/users/popular-profiles');
+                    if (response.ok) {
+                        const data = await response.json();
+                        updateRankingsTable(data);
+                    }
+                } catch (error) {
+                    console.error('Error loading rankings:', error);
+                }
+            <% } %>
+        });
+        
+        function updateRankingsTable(profiles) {
+            const tableBody = document.getElementById('rankings-table');
+            
+            if (profiles && profiles.length > 0) {
+                let tableHTML = '';
+                profiles.forEach((profile, index) => {
+                    const rankIcon = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`;
+                    const rankDisplay = index < 3 ? 
+                        `<span class="text-2xl">${rankIcon}</span>` : 
+                        `<span class="text-lg font-semibold text-gray-500">${rankIcon}</span>`;
+                    
+                    tableHTML += `
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    ${rankDisplay}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-12 w-12">
+                                        <img 
+                                            class="h-12 w-12 rounded-full object-cover" 
+                                            src="${profile.profileImage || '/images/default.svg'}" 
+                                            alt="${profile.username}"
+                                        />
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                            @${profile.username}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900 dark:text-white">
+                                    <span class="text-custom-green font-bold text-lg">
+                                        ${profile.profileClicks || 0}
+                                    </span>
+                                    <span class="text-gray-500 text-sm ml-1">views</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a 
+                                    href="/profile/${profile.username}" 
+                                    class="text-custom-green hover:text-green-600 transition-colors"
+                                >
+                                    View Profile
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                });
+                tableBody.innerHTML = tableHTML;
+            } else {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="px-6 py-12 text-center">
+                            <div class="text-gray-500 dark:text-gray-300">
+                                <div class="w-24 h-24 mx-auto mb-4 text-gray-400">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2">No Rankings Yet</h3>
+                                <p>Be the first to create a profile and start climbing the rankings!</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+    </script>
+    
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+</body>
+</html>

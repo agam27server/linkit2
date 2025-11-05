@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" class="<%= isDarkMode ? 'dark' : '' %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkit</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/newLogo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/newLogo.png">
+    <link rel="shortcut icon" href="/images/newLogo.png">
+    <link rel="apple-touch-icon" href="/images/newLogo.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'custom-green': '#4caf50',
+                        'custom-grey-color': 'rgba(39, 39, 39, 0.8)',
+                        'buttons-primary': '#4caf50'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="<%= isDarkMode ? 'bg-black text-white' : 'bg-white text-black' %>">
+    <div class="min-h-screen flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-md">
+            <!-- Dark Mode Toggle -->
+            <div class="absolute top-4 right-4">
+                <%- include('partials/darkButton') %>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-card" class="bg-white text-black p-8 rounded-lg shadow-lg">
+                <!-- Logo -->
+                <div class="flex justify-center mb-6">
+                    <img 
+                        id="login-logo"
+                        src="<%= isDarkMode ? '/images/logo_dark_mode.svg' : '/images/logo_light_mode.svg' %>" 
+                        alt="LinkIt Logo" 
+                        class="w-60 mx-auto"
+                    />
+                </div>
+                
+                <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+                
+                <!-- Error Message -->
+                <% if (error) { %>
+                    <div id="error-message" class="bg-red-500 text-white p-3 rounded mb-4 text-center">
+                        <%= error %>
+                    </div>
+                <% } else { %>
+                    <div id="error-message" class="hidden bg-red-500 text-white p-3 rounded mb-4 text-center"></div>
+                <% } %>
+                
+                <form action="/api/users/login" method="POST" class="space-y-4">
+                    <div>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            id="email-input"
+                            placeholder="Email" 
+                            required
+                            class="w-full px-4 py-2 rounded border bg-gray-100 text-black border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        />
+                    </div>
+                    
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            name="password" 
+                            id="password"
+                            placeholder="Password" 
+                            required
+                            class="w-full px-4 py-2 rounded border bg-gray-100 text-black border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 pr-12"
+                        />
+                        <button 
+                            type="button" 
+                            onclick="togglePasswordVisibility()"
+                            class="absolute inset-y-0 right-4 flex items-center text-gray-500 hover:text-gray-700"
+                        >
+                            <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        class="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                        Login
+                    </button>
+                </form>
+                
+                <p class="text-center text-sm mt-4">
+                    Don't have an account? 
+                    <a href="/register" class="text-green-500 hover:underline focus:outline-none focus:ring-2 focus:ring-green-500">
+                        Register here
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>';
+            }
+        }
+    </script>
+    
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+</body>
+</html>

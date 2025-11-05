@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" class="<%= isDarkMode ? 'dark' : '' %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkit</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/newLogo.png?v=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/newLogo.png?v=1">
+    <link rel="shortcut icon" href="/images/newLogo.png?v=1">
+    <link rel="apple-touch-icon" href="/images/newLogo.png?v=1">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'custom-green': '#4caf50',
+                        'custom-grey-color': 'rgba(39, 39, 39, 0.8)',
+                        'buttons-primary': '#4caf50'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.0/tsparticles.bundle.min.js"></script>
+</head>
+<body class="<%= isDarkMode ? 'bg-black text-white' : 'bg-white text-black' %>">
+    <!-- Navigation -->
+    <%- include('partials/navbar') %>
+    
+    <!-- Main Content -->
+    <main class="min-h-screen overflow-x-hidden">
+        <!-- Hero Section -->
+        <section id="home" class="flex flex-col gap-6 lg:mx-20 sm:mx-5 lg:flex-row items-center justify-center px-6 sm:px-10 min-h-screen">
+            <!-- Left Side: Text and Buttons -->
+            <div class="lg:w-1/2 text-justify sm:text-left">
+                <h1 data-aos="fade-up" class="text-4xl pt-10 sm:text-5xl font-bold mb-4 text-center sm:text-left">
+                    One Link,<br />Endless Possibilities
+                </h1>
+                <p data-aos="fade-up" data-aos-delay="200" class="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                    LinkIt is your all-in-one platform to share, manage, and track your
+                    links seamlessly. Simplify your online presence with a single
+                    customizable page that connects your audience to everything you offer!
+                </p>
+                <div class="flex flex-wrap justify-center sm:justify-start gap-4">
+                    <!-- Make Your Own Button -->
+                    <a data-aos="fade-up" data-aos-delay="200"
+                        href="/login"
+                        class="h-12 w-40 bg-custom-green text-white rounded flex items-center justify-center font-semibold hover:bg-custom-green hover:opacity-70 transition-all"
+                    >
+                        Make Your Own
+                    </a>
+
+                    <!-- See Demo Button -->
+                    <a data-aos="fade-up" data-aos-delay="300"
+                        href="/profile/agam"
+                        target="_blank"
+                        class="h-12 w-40 border-2 border-custom-green text-custom-green rounded flex items-center justify-center font-semibold bg-transparent"
+                    >
+                        See Demo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Side: Image -->
+            <div data-aos="fade-left" class="lg:w-1/2 hidden sm:flex">
+                <div class="w-full max-w-md mx-auto rounded flex items-center justify-center">
+                    <img
+                        src="/images/<%= isDarkMode ? 'landing-dark.svg' : 'landing.svg' %>"
+                        alt="Hero Image"
+                        class="w-full scale-110 h-auto"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Section -->
+        <section id="image-section" class="flex items-center justify-center py-10 <%= isDarkMode ? 'bg-black' : 'bg-gray-100' %>">
+            <div data-aos="fade-up" data-aos-delay="200" class="w-full max-w-6xl px-4">
+                <img
+                    src="/images/demo.png"
+                    alt="demo"
+                    class="w-full h-auto object-contain rounded-lg"
+                />
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="feature" class="flex flex-col lg:flex-row items-center justify-between gap-20 px-6 sm:px-10 py-20 lg:pt-60">
+            <!-- Left Side: Image -->
+            <div data-aos="fade-right" class="w-full lg:w-3/5 flex items-center justify-center order-last lg:order-first">
+                <img
+                    src="/images/<%= isDarkMode ? 'features-dark.svg' : 'features-light.svg' %>"
+                    alt="Feature Illustration"
+                    class="w-full max-w-md h-auto"
+                />
+                        </div>
+
+            <!-- Right Side: Text Content -->
+            <div class="w-full lg:w-2/5 sm:text-left lg:text-left">
+                <h2 data-aos="fade-up" class="text-4xl pl-20 font-bold mb-6">Features</h2>
+                <ul class="space-y-4 text-gray-600 dark:text-gray-400">
+                    <li data-aos="fade-up" data-aos-delay="200" class="flex items-center gap-2 lg:text-md sm:text-md sm:text-left">
+                        <div class="w-4 h-4 bg-custom-green rounded-full flex-shrink-0"></div>
+                        <span>Manage and share multiple links effortlessly in one place.</span>
+                    </li>
+                    <li data-aos="fade-up" data-aos-delay="300" class="flex items-center gap-2 lg:text-md sm:text-md sm:text-left">
+                        <div class="w-4 h-4 bg-custom-green rounded-full flex-shrink-0"></div>
+                        <span>Easy-to-share customizable page with a single URL.</span>
+                    </li>
+                    <li data-aos="fade-up" data-aos-delay="400" class="flex items-center gap-2 lg:text-md sm:text-md sm:text-left">
+                        <div class="w-4 h-4 bg-custom-green rounded-full flex-shrink-0"></div>
+                        <span>Toggle between dark mode and light mode for personalized use.</span>
+                    </li>
+                    <li data-aos="fade-up" data-aos-delay="500" class="flex items-center gap-2 lg:text-md sm:text-md sm:text-left">
+                        <div class="w-4 h-4 bg-custom-green rounded-full flex-shrink-0"></div>
+                        <span>Track profile views with detailed analytics and rankings.</span>
+                    </li>
+                    <li data-aos="fade-up" data-aos-delay="600" class="flex items-center gap-2 lg:text-md sm:text-md sm:text-left">
+                        <div class="w-4 h-4 bg-custom-green rounded-full flex-shrink-0"></div>
+                        <span>Interactive and responsive UI/UX for seamless navigation.</span>
+                    </li>
+                    <li data-aos="fade-up" data-aos-delay="700" class="flex items-center gap-2 lg:text-md sm:text-md sm:text-left">
+                        <div class="w-4 h-4 bg-custom-green rounded-full flex-shrink-0"></div>
+                        <span>Simple, secure, and optimized for all devices.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Rankings Section -->
+        <section id="ranking" class="flex flex-col lg:flex-row items-center justify-between gap-10 lg:px-20 sm:px-5 py-20 lg:py-40">
+            <!-- Left Side: Heading, Subheading, and Button -->
+            <div class="lg:w-1/2 lg:px-20 flex flex-col items-center lg:items-start justify-center text-center lg:text-left">
+                <h2 data-aos="fade-up" class="text-4xl font-bold mb-6">Profile Rankings</h2>
+                <p data-aos="fade-up" data-aos-delay="200" class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+                    Explore the most popular profiles ranked by views. See who's leading
+                    and get inspired to boost your own profile.
+                </p>
+                <a data-aos="fade-up" data-aos-delay="300" href="/rankings" class="px-8 py-3 bg-custom-green text-white font-semibold rounded-md">
+                    View Popular Profiles
+                    </a>
+                </div>
+
+            <!-- Right Side: Image -->
+            <div data-aos="fade-left" class="lg:w-1/2 flex items-center justify-center">
+                <img
+                    src="/images/rankings.svg"
+                    alt="Ranking Illustration"
+                    class="w-full scale-90 max-w-lg h-auto"
+                />
+            </div>
+        </section>
+
+        <!-- GitHub Section -->
+        <section id="github" class="flex flex-col items-center justify-center text-center gap-8 px-6 sm:px-10 py-20 lg:pt-40">
+            <!-- Heading -->
+            <div>
+                <h1 data-aos="fade-up" class="text-4xl font-bold mb-4">GitHub</h1>
+                <p data-aos="fade-up" data-aos-delay="200" class="text-lg text-gray-600 dark:text-gray-400 mb-6 sm:mx-20 lg:mx-60">
+                    All the source code for our project is available for free on our GitHub repository, where anyone can explore, learn from, and contribute to our work without any cost.
+                </p>
+                </div>
+
+            <!-- GitHub Badges -->
+            <div data-aos="fade-up" data-aos-delay="300" class="flex flex-wrap justify-center gap-4">
+                <img
+                    alt="GitHub repo size"
+                    src="https://img.shields.io/github/repo-size/priyamaggarwal18/Linkit?style=for-the-badge&color=darkgreen"
+                />
+                <img
+                    alt="GitHub Repo stars"
+                    src="https://img.shields.io/github/stars/priyamaggarwal18/Linkit?style=for-the-badge&color=darkgreen"
+                />
+                <img
+                    alt="GitHub forks"
+                    src="https://img.shields.io/github/forks/priyamaggarwal18/Linkit?style=for-the-badge&color=darkgreen"
+                />
+                <img
+                    alt="Last commit"
+                    src="https://img.shields.io/github/last-commit/priyamaggarwal18/Linkit?style=for-the-badge&color=darkgreen"
+                />
+            </div>
+
+            <!-- View Code Button -->
+            <a data-aos="fade-up" data-aos-delay="400"
+                href="https://github.com/agam27server"
+                target="_blank"
+                class="px-8 py-3 bg-custom-green text-white font-semibold rounded-md hover:bg-green-600 transition-all"
+            >
+                View Code
+            </a>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+    
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+    
+    <!-- Initialize AOS -->
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
+</body>
+</html>
