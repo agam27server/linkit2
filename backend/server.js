@@ -9,6 +9,8 @@ import jwt from 'jsonwebtoken';
 import userMiddleware from './middlewares/userMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
 import linkRoutes from './routes/linkRoutes.js';
+import { updateUsername } from './controllers/userController.js';
+import authMiddleware from './middlewares/authMiddleware.js';
 
 dotenv.config();
 
@@ -62,13 +64,37 @@ app.get('/', (req, res) => {
   });
 });
 
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api/')) {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+    console.log('Request headers:', {
+      'content-type': req.headers['content-type'],
+      'authorization': req.headers['authorization'] ? 'Present' : 'Missing',
+      'cookie': req.headers['cookie'] ? 'Present' : 'Missing'
+    });
+  }
+  next();
+});
+
 // Routes
 app.use('/', userRoutes);
+// Mount userRoutes at /api/users for routes that need /api/users prefix
 app.use('/api/users', userRoutes);
 app.use('/api/links', linkRoutes);
 
+// Register update-username route directly to ensure it's accessible
+// This is a backup route in case the route in userRoutes.js doesn't work
+app.put('/api/users/update-username', authMiddleware, updateUsername);
+console.log('Directly registered route: PUT /api/users/update-username');
+
 // 404 handler - must be after all other routes
 app.use('*', (req, res) => {
+  // Don't render 404 for API routes - return JSON instead
+  if (req.path.startsWith('/api/')) {
+    console.log(`404 - API route not found: ${req.method} ${req.path}`);
+    return res.status(404).json({ message: 'API route not found' });
+  }
   res.status(404).render('404', {
     isDarkMode: false,
     user: req.user || null

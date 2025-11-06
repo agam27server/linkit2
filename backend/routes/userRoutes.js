@@ -5,6 +5,7 @@ import {
   getPopularProfiles,
   getPublicProfile,
   updateProfileImage,
+  updateUsername,
   getLoggedInUserProfile,
   renderLogin,
   renderRegister,
@@ -41,5 +42,14 @@ router.put(
   upload.single("profileImage"),
   updateProfileImage
 );
+// Update username route - defined without /api/users prefix for /api/users mount
+router.put(
+  "/update-username",
+  authMiddleware,
+  updateUsername
+);
+
+// Debug: Log route registration
+console.log('Registered route: PUT /update-username (accessible at /api/users/update-username when mounted)');
 
 export default router;

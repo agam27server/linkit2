@@ -149,12 +149,19 @@
     <!-- Footer -->
     <%- include('partials/footer') %>
     
+    <!-- Rankings Data -->
+    <script id="rankings-data" type="application/json"><%- JSON.stringify({ hasProfiles: (profiles && profiles.length > 0) }) %></script>
+    
     <script>
         // Load rankings data if not already loaded
         document.addEventListener('DOMContentLoaded', async function() {
-            <% if (!profiles || profiles.length === 0) { %>
+            // Check if profiles data is already loaded from server-side rendering
+            const rankingsDataElement = document.getElementById('rankings-data');
+            const rankingsData = rankingsDataElement ? JSON.parse(rankingsDataElement.textContent) : { hasProfiles: false };
+            
+            if (!rankingsData.hasProfiles) {
                 try {
-                    const response = await fetch('/api/users/popular-profiles');
+                    const response = await fetch('/api/popular-profiles');
                     if (response.ok) {
                         const data = await response.json();
                         updateRankingsTable(data);
@@ -162,7 +169,7 @@
                 } catch (error) {
                     console.error('Error loading rankings:', error);
                 }
-            <% } %>
+            }
         });
         
         function updateRankingsTable(profiles) {

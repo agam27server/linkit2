@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   profileImage: { type: String },
   profileClicks: { type: Number, default: 0 },
+  qrCodeUrl: { type: String }, // Base64 QR code image for profile sharing
 });
 
 export default mongoose.model('User', UserSchema);
