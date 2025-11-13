@@ -55,7 +55,8 @@
                     links seamlessly. Simplify your online presence with a single
                     customizable page that connects your audience to everything you offer!
                 </p>
-                <div class="flex flex-wrap justify-center sm:justify-start gap-4">
+                <% if (typeof user === 'undefined' || !user) { %>
+                    <div class="flex flex-wrap justify-center sm:justify-start gap-4">
                     <!-- Make Your Own Button -->
                     <a data-aos="fade-up" data-aos-delay="200"
                         href="/login"
@@ -73,6 +74,8 @@
                         See Demo
                     </a>
                 </div>
+                <%} %>
+                
             </div>
 
             <!-- Right Side: Image -->
