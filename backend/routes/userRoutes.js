@@ -15,6 +15,7 @@ import {
   logoutUser,
 } from "../controllers/userController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
+import { loginRateLimiter } from "../middlewares/rateLimit.js";
 import upload from "../middlewares/upload.js";
 
 const router = express.Router();
@@ -29,7 +30,7 @@ router.get("/logout", logoutUser);
 
 // API Routes
 router.post("/register", upload.single("profileImage"), registerUser);
-router.post("/login", loginUser);
+router.post("/login",loginRateLimiter, loginUser);
 router.post("/logout", logoutUser); // API endpoint for logout
 router.get("/api/profile/:username", getPublicProfile);
 

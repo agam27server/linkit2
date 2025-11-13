@@ -80,3 +80,4 @@ async function regenerateAllQRCodes() {
 // Run the script
 regenerateAllQRCodes();
 
+
