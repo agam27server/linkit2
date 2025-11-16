@@ -38,29 +38,7 @@ app.set('views', path.join(__dirname, '../frontend2/views'));
 app.use(cors());
 
 // Serve static files from frontend2/public
-// Static files with caching
-app.use(
-  express.static(path.join(__dirname, "../frontend2/public"), {
-    maxAge: "1d", // Browser should cache for 1 day
-    setHeaders: (res, filePath) => {
-      // Cache only static assets, not HTML views
-      if (
-        filePath.endsWith(".js") ||
-        filePath.endsWith(".css") ||
-        filePath.endsWith(".png") ||
-        filePath.endsWith(".jpg") ||
-        filePath.endsWith(".jpeg") ||
-        filePath.endsWith(".svg") ||
-        filePath.endsWith(".ico")
-      ) {
-        res.setHeader("Cache-Control", "public, max-age=86400"); // 1 day
-      } else {
-        // Prevent caching HTML files
-        res.setHeader("Cache-Control", "no-store");
-      }
-    }
-  })
-);
+app.use(express.static(path.join(__dirname, '../frontend2/public')));
 
 // Explicit favicon route
 app.get('/favicon.ico', (req, res) => {
