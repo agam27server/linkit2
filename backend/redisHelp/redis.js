@@ -1,17 +1,22 @@
 import { createClient } from "redis";
 
-const redis = createClient({
-  username: "default",
-  password: "naGNopcgJR0wWYcsozDprGpFABSqMSGg",
-  socket: {
-    host: "redis-16551.crce217.ap-south-1-1.ec2.cloud.redislabs.com",
-    port: 16551,
-  },
-});
+let redis = null;
 
-redis.on("error", (err) => console.log("Redis Client Error:", err));
+if (process.env.REDIS_URL) {
+  redis = createClient({
+    url: process.env.REDIS_URL
+  });
 
-await redis.connect();
-console.log("Connected to Redis");
+  redis.on("error", (err) => console.log("Redis Client Error:", err));
+
+  // Connect without top-level await to prevent blocking/crashing
+  redis.connect().then(() => {
+    console.log("Connected to Redis");
+  }).catch((err) => {
+    console.log("Failed to connect to Redis:", err);
+  });
+} else {
+  console.log("REDIS_URL not found, skipping Redis connection");
+}
 
 export default redis;

@@ -8,9 +8,9 @@ export const loginRateLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 
-  store: new RedisStore({
+  store: redis ? new RedisStore({
     sendCommand: (...args) => redis.sendCommand(args),
-  }),
+  }) : undefined,
 
   handler: (req, res, next) => {
     res.status(429).render("429", {
