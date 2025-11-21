@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" class="<%= isDarkMode ? 'dark' : '' %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'custom-green': '#4caf50',
+                        'custom-grey-color': 'rgba(39, 39, 39, 0.8)',
+                        'buttons-primary': '#4caf50'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.0/tsparticles.bundle.min.js"></script>
+</head>
+<body class="<%= isDarkMode ? 'bg-black text-white' : 'bg-white text-black' %>">
+    <!-- Navigation -->
+    <%- include('partials/navbar') %>
+    
+    <!-- Main Content -->
+    <main>
+        <%- body %>
+    </main>
+    
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+    
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+    
+    <!-- Initialize AOS -->
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
+</body>
+</html>
+
+

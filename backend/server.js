@@ -11,8 +11,7 @@ import userRoutes from './routes/userRoutes.js';
 import linkRoutes from './routes/linkRoutes.js';
 import { updateUsername } from './controllers/userController.js';
 import authMiddleware from './middlewares/authMiddleware.js';
-import https from 'https';
-import fs from 'fs';
+
 
 dotenv.config();
 
@@ -25,7 +24,7 @@ const __dirname = path.dirname(__filename);
 
 // Configure EJS
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../frontend2/views'));
+app.set('views', path.join(__dirname, 'frontend/views'));
 
 // Middleware
 //for vercel deployment
@@ -38,11 +37,36 @@ app.set('views', path.join(__dirname, '../frontend2/views'));
 app.use(cors());
 
 // Serve static files from frontend2/public
-app.use(express.static(path.join(__dirname, '../frontend2/public')));
+// app.use(express.static(path.join(__dirname, '../frontend2/public')));
+
+
+// Static files with caching
+app.use(
+  express.static(path.join(__dirname, "frontend/public"), {
+    maxAge: "1d", // Browser should cache for 1 day
+    setHeaders: (res, filePath) => {
+      // Cache only static assets, not HTML views
+      if (
+        filePath.endsWith(".js") ||
+        filePath.endsWith(".css") ||
+        filePath.endsWith(".png") ||
+        filePath.endsWith(".jpg") ||
+        filePath.endsWith(".jpeg") ||
+        filePath.endsWith(".svg") ||
+        filePath.endsWith(".ico")
+      ) {
+        res.setHeader("Cache-Control", "public, max-age=86400"); // 1 day
+      } else {
+        // Prevent caching HTML files
+        res.setHeader("Cache-Control", "no-store");
+      }
+    }
+  })
+);
 
 // Explicit favicon route
 app.get('/favicon.ico', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend2/public/images/newLogo.png'));
+  res.sendFile(path.join(__dirname, 'frontend/public/images/newLogo.png'));
 });
 
 app.use(express.json());
@@ -104,14 +128,8 @@ app.use('*', (req, res) => {
 });
 
 // Start Server
-// HTTPS Server Configuration
-const sslOptions = {
-  key: fs.readFileSync(path.join(__dirname, 'certs', 'localhostkey.pem')),
-  cert: fs.readFileSync(path.join(__dirname, 'certs', 'localhostcert.pem')),
-};
-
-// Start HTTPS server
-https.createServer(sslOptions, app).listen(port, () => {
-  console.log(`🔒 HTTPS server running at https://localhost:${port}`);
+// Start Server
+app.listen(port, () => {
+  console.log(`🚀 Server running at http://localhost:${port}`);
 });
 

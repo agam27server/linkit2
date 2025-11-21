@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" class="<%= isDarkMode ? 'dark' : '' %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>429 - Too Many Requests | Linkit</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/newLogo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/newLogo.png">
+    <link rel="shortcut icon" href="/images/newLogo.png">
+    <link rel="apple-touch-icon" href="/images/newLogo.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'custom-green': '#4caf50',
+                        'custom-grey-color': 'rgba(39, 39, 39, 0.8)',
+                        'buttons-primary': '#4caf50'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.0/tsparticles.bundle.min.js"></script>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body id="not-found-body" class="bg-white text-black">
+    <div class="relative min-h-screen flex flex-col items-center justify-center">
+        <!-- Particles Background -->
+        <div id="particles-js" class="absolute inset-0"></div>
+        
+        <!-- Header -->
+        <header class="fixed py-3 top-0 left-0 right-0 z-50 w-full bg-white text-black backdrop-blur-md shadow-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+                <!-- Logo -->
+                <%- include('partials/linkitLogo') %>
+                
+                <!-- Right Buttons -->
+                <div class="flex items-center gap-4">
+                    <%- include('partials/darkButton') %>
+                    <% if (user) { %>
+                        <a href="/dashboard" class="px-4 py-2 border-2 border-custom-green text-buttons-primary rounded-md hover:text-custom-green transition-all">
+                            Dashboard
+                        </a>
+                        <a href="/profile/<%= user.username %>" class="px-4 py-2 border-2 border-custom-green text-buttons-primary rounded-md hover:text-custom-green transition-all">
+                            Public Profile
+                        </a>
+                        <button onclick="logout()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                            Logout
+                        </button>
+                    <% } else { %>
+                        
+                        <a href="/register" class="px-4 py-2 bg-custom-green text-white rounded-md hover:bg-green-600 transition-all">
+                            Sign Up
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <div class="relative z-10 flex flex-col items-center justify-center px-4 sm:px-10 py-4 sm:py-8 bg-transparent text-black" style="padding-top: 6rem; min-height: calc(100vh - 6rem);">
+            
+            <!-- 404 Content -->
+            <div class="w-full max-w-4xl flex flex-col items-center p-10 rounded-lg shadow-lg bg-white text-black bg-opacity-50 backdrop-blur-md" data-aos="fade-up">
+                
+                <!-- 404 Image -->
+                
+                
+                <!-- 404 Text -->
+                <div class="text-center mb-8" data-aos="fade-up" data-aos-delay="400">
+                    <h1 class="text-6xl font-bold text-custom-green mb-4">429</h1>
+                    <h2 class="text-3xl font-semibold mb-4">Oops! Too Many Requests</h2>
+                    <p class="text-lg text-gray-600 mb-8 max-w-md mx-auto">
+                        you have reached the rate limit for requests login. Please try again later in 10 minutes.
+                    </p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4" data-aos="fade-up" data-aos-delay="600">
+                    <a href="/" class="px-6 py-3 bg-custom-green text-white rounded-lg hover:bg-green-600 transition-all font-medium">
+                        Go Home
+                    </a>
+                    <!-- <% if (user) { %>
+                        <a href="/dashboard" class="px-6 py-3 border-2 border-custom-green text-custom-green rounded-lg hover:bg-custom-green hover:text-white transition-all font-medium">
+                            Dashboard
+                        </a>
+                    <% } else { %>
+                        <a href="/login" class="px-6 py-3 border-2 border-custom-green text-custom-green rounded-lg hover:bg-custom-green hover:text-white transition-all font-medium">
+                            Login
+                        </a>
+                    <% } %> -->
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize particles
+        function initParticles() {
+            if (window.tsParticles) {
+                window.tsParticles.load("particles-js", {
+                    particles: {
+                        number: {
+                            value: 80,
+                            density: {
+                                enable: true,
+                                value_area: 800
+                            }
+                        },
+                        color: {
+                            value: "#4caf50"
+                        },
+                        shape: {
+                            type: "circle"
+                        },
+                        opacity: {
+                            value: 0.5,
+                            random: false,
+                            anim: {
+                                enable: false,
+                                speed: 1,
+                                opacity_min: 0.1,
+                                sync: false
+                            }
+                        },
+                        size: {
+                            value: 3,
+                            random: true,
+                            anim: {
+                                enable: false,
+                                speed: 40,
+                                size_min: 0.1,
+                                sync: false
+                            }
+                        },
+                        line_linked: {
+                            enable: true,
+                            distance: 150,
+                            color: "#4caf50",
+                            opacity: 0.4,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 6,
+                            direction: "none",
+                            random: false,
+                            straight: false,
+                            out_mode: "out",
+                            bounce: false,
+                            attract: {
+                                enable: false,
+                                rotateX: 600,
+                                rotateY: 1200
+                            }
+                        }
+                    },
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: {
+                            onhover: {
+                                enable: true,
+                                mode: "repulse"
+                            },
+                            onclick: {
+                                enable: true,
+                                mode: "push"
+                            },
+                            resize: true
+                        },
+                        modes: {
+                            grab: {
+                                distance: 400,
+                                line_linked: {
+                                    opacity: 1
+                                }
+                            },
+                            bubble: {
+                                distance: 400,
+                                size: 40,
+                                duration: 2,
+                                opacity: 8,
+                                speed: 3
+                            },
+                            repulse: {
+                                distance: 200,
+                                duration: 0.4
+                            },
+                            push: {
+                                particles_nb: 4
+                            },
+                            remove: {
+                                particles_nb: 2
+                            }
+                        }
+                    },
+                    retina_detect: true
+                });
+            }
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS
+            AOS.init({
+                duration: 500,
+                easing: "ease-in-out",
+                once: false,
+            });
+            
+            // Initialize particles
+            initParticles();
+        });
+    </script>
+    
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+</body>
+</html>
