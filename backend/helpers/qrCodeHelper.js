@@ -1,5 +1,5 @@
 import QRCode from "qrcode";
-import { createCanvas, loadImage } from "canvas";
+// import { createCanvas, loadImage } from "canvas";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
@@ -21,8 +21,9 @@ export const generateQRCode = async (url) => {
       throw new Error("Invalid URL provided for QR code.");
     }
 
-    // STEP 1: Generate QR as PNG buffer using qrcode package
-    const qrPngBuffer = await QRCode.toBuffer(url, {
+    // Generate QR as Data URL directly using qrcode package
+    // This avoids using 'canvas' which causes issues on Vercel
+    const qrDataUrl = await QRCode.toDataURL(url, {
       errorCorrectionLevel: "H",
       scale: 12,
       color: {
@@ -31,52 +32,7 @@ export const generateQRCode = async (url) => {
       },
     });
 
-    // STEP 2: Load buffer into canvas for adding optional logo
-    const qrImage = await loadImage(qrPngBuffer);
-    const canvasSize = qrImage.width;
-    const canvas = createCanvas(canvasSize, canvasSize);
-    const ctx = canvas.getContext("2d");
-
-    // Draw QR image on canvas
-    ctx.drawImage(qrImage, 0, 0, canvasSize, canvasSize);
-
-    // STEP 3: Optional logo in center
-    const possibleLogoPaths = [
-      path.join(__dirname, "../../frontend2/public/images/newLogo.png"),
-      path.join(__dirname, "../../frontend2/public/images/logo.svg"),
-    ];
-
-    let logoPath = null;
-
-    for (const testPath of possibleLogoPaths) {
-      if (fs.existsSync(testPath)) {
-        logoPath = testPath;
-        break;
-      }
-    }
-
-    if (logoPath) {
-      try {
-        const logo = await loadImage(logoPath);
-        const logoSize = canvasSize * 0.18; // 18% of QR size
-        const x = (canvasSize - logoSize) / 2;
-        const y = (canvasSize - logoSize) / 2;
-
-        // White behind logo for visibility
-        ctx.fillStyle = "#FFFFFF";
-        ctx.beginPath();
-        ctx.arc(canvasSize / 2, canvasSize / 2, logoSize / 2 + 10, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.drawImage(logo, x, y, logoSize, logoSize);
-        console.log("QR Helper: Logo added successfully");
-      } catch (e) {
-        console.warn("QR Helper: Logo load failed:", e.message);
-      }
-    }
-
-    // Return base64 data URL
-    return canvas.toDataURL("image/png");
+    return qrDataUrl;
   } catch (error) {
     console.error("QR Helper: Error generating QR code:", error);
     throw error;
